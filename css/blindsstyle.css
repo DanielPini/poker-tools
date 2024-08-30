@@ -1,0 +1,317 @@
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: white;
+  box-sizing: border-box;
+}
+body {
+  background-color: rgb(22, 22, 22);
+  overflow-x: hidden;
+}
+header {
+  display: flex;
+  height: 30px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(165, 4, 4);
+  color: white;
+  font-weight: 700;
+}
+header > div {
+  margin: 0 5px;
+  font-size: clamp(15px, 2vw, 25px);
+  display: flex;
+  flex-flow: row nowrap;
+}
+.round {
+  display: flex;
+  flex-flow: row nowrap;
+  white-space: nowrap;
+}
+.logo {
+  width: 90px;
+  border: 1px black solid;
+}
+main {
+  display: grid;
+  grid-template-rows: repeat(3, 30vh);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: visible;
+}
+.time-remaining {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  translate: -50%;
+  white-space: nowrap;
+  display: flex;
+  flex-flow: column;
+  width: 40vw;
+  min-width: 230px;
+
+  * {
+    overflow: visible
+  }
+}
+.time-remaining_title {
+  font-size: clamp(20px, 4vw, 40px);
+  color: rgb(180, 18, 18)
+}
+.countdown-clock_numbers {
+  font-size: clamp(70px, 10vw, 200px);
+  color: white;
+  letter-spacing: -5px;
+  font-weight: 600;
+}
+.break-time {
+  position: absolute;
+  bottom: 18vh;
+  left: 50%;
+  translate: -50%;
+}
+.time-to-break_title {
+  font-size: clamp(20px, 4vw, 35px);
+  color: rgb(180, 18, 18);
+}
+.time-to-break_clock {
+  margin: 0;
+  font-size: clamp(15px, 3vw, 30px);
+}
+.progress-gutter {
+  position: absolute;
+  bottom: 26vh;
+  left: 50%;
+  translate: -50%;
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+    90deg,
+    #9b9b9b 0,
+    #9b9b9b 2px,
+    transparent 3px,
+    transparent 4px
+  );
+  height: 2vh;
+  width: 90vw;
+  margin: 3vh 0;
+  box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.2);
+}
+.time-left-graphic {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgb(255, 255, 255) 0,
+    #ffffff 2px,
+    transparent 3px,
+    transparent 4px
+  );
+  width: 0px;
+  height: 2vh;
+}
+.blinds-antes {
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  translate: -50%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  gap: 1vw;
+  align-items: center;
+  * {
+    overflow: visible;
+    font-weight: 600
+  }
+}
+.blinds-antes > div {
+  width: 31vw;
+  min-width: fit-content;
+  height: 18vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+.blinds-title {
+  color: rgb(180, 18, 18);
+}
+.blind-numbers {
+  font-size: clamp(15px, 10vw, 200px);
+  font-weight: 300;
+  letter-spacing: -5px;
+  text-align: center;
+}
+
+#button-section {
+  position: absolute;
+  bottom: 3vh;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.small-button {
+  border-radius: 100%;
+  width: 30px;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+}
+.play-pause {
+  background: transparent;
+  border: none;
+  margin: 15px;
+  cursor: pointer;
+}
+.settings {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 101%;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(24, 21, 46);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  transition: all 100ms linear;
+}
+input {
+  color: black;
+  height: 30px;
+  width: 50px;
+  border-radius: 5px;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#optional {
+  cursor: pointer;
+}
+#optional > p {
+  color: blue;
+  text-decoration: underline;
+  margin-left: 3px;
+}
+
+table {
+  font-size: 24px;
+  margin: 0 auto;
+  width: 100vw;
+  padding-right: 10px;
+  table-layout: fixed;
+}
+thead tr {
+  color: white;
+  background-color: rgb(0, 0, 0);
+  width: 100%;
+  font-size: clamp(10px, 2vw, 100px);
+}
+thead {
+  width: 100vw;
+}
+th {
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  text-align: left;
+  text-transform: uppercase;
+  padding-left: 15px;
+}
+tr {
+  padding: 3px 5px;
+}
+tbody td {
+  padding-left: 15px;
+}
+tbody > tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.settings-section {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.settings-icon {
+  height: 70%;
+  cursor: pointer;
+  margin-left: 2vw;
+}
+.settings-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.settings-header * {
+  width: 14.2%;
+}
+.close-icon {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  width: 15px;
+}
+.close {
+  background-color: rgb(58, 73, 58);
+  width: 20px;
+  height: 20px;
+  box-shadow: 0 0 3px 1px black;
+  border: none;
+  cursor: pointer;
+}
+#collect {
+  width: calc(100% - 40px);
+  display: flex;
+  margin: 10px auto;
+  font-size: 24px;
+  flex-flow: column;
+  align-items: start;
+}
+#collect > form > p, #advanced-options, p  {
+  display: flex;
+  flex-flow: column;
+}
+#optional {
+  display: inline-block;
+}
+#btnSave {
+  background-color: maroon;
+  width: 90px;
+  height: 30px;
+  border-radius: 20px;
+  margin: 10px 0;
+}
+.customise-button, #minimise-button {
+  display: inline-block;
+  white-space: nowrap;
+  text-align: center;
+  width: 300px;
+  height: 30px;
+  border-radius: 20px;
+  margin: 10px 10px;
+  cursor: pointer;
+  background-color: maroon;
+}
+#form {
+  position: absolute;
+  background-color: rgb(24, 21, 46);
+  top: 0%;
+  left: 50%;
+  translate: -50%;
+  width: 100vw;
+  height: 100vw;
+  transform: scale(.0001);
+  transition: all 250ms linear;
+}
+#form {
+  padding-left: 30px;
+  padding-top: 30px;
+}
+

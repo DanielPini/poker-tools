@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Poker tournament blinds timer</title>
+    <link
+      rel="stylesheet"
+      href="./css/blindsstyle.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo"></div>
+      <div class="round">
+        <p class="js-round-number">Round</p>
+      </div>
+      <div class="settings-section">
+        <p>Settings</p>
+        <img
+          class="settings-icon"
+          src="assets/icons/settings.svg"
+          alt="Settings icon."
+          srcset="" />
+      </div>
+    </header>
+
+    <main>
+      <section class="blinds-antes">
+        <div class="blinds">
+          <h2 class="blinds-title">Blinds</h2>
+          <h3 class="blind-numbers">
+            <span class="blinds1">-</span>/<span class="blinds2">-</span>
+          </h3>
+          <h4 class="next-blinds">
+            Next <span class="next-blinds1">-</span>/<span class="next-blinds2"
+              >-</span
+            >
+          </h4>
+        </div>
+
+        <div class="antes">
+          <h2 class="ante blinds-title">Ante</h2>
+          <h3 class="ante-number blind-numbers">-</h3>
+          <h4 class="next-ante next-blinds">
+            Next <span class="next-blinds1 next-ante-number">-</span>
+          </h4>
+        </div>
+      </section>
+      <section class="time-remaining">
+        <h2 class="time-remaining_title">Time Remaining</h2>
+        <div class="countdown-clock">
+          <h2 class="countdown-clock_numbers"></h2>
+        </div>
+      </section>
+      <div id="button-section">
+        <button
+          id="previous"
+          class="small-button">
+          <img
+            src="./assets/icons/previous.svg"
+            alt="" />
+        </button>
+        <button class="play-pause js-play-pause">
+          <img
+            src="./assets/icons/play.svg"
+            alt="Play icon"
+            srcset="" />
+        </button>
+        <button
+          id="next"
+          class="small-button">
+          <img
+            src="./assets/icons/next.svg"
+            alt="" />
+        </button>
+      </div>
+      <div class="progress-gutter">
+        <div class="time-left-graphic"></div>
+      </div>
+      <div class="break-time">
+        <h3 class="time-to-break_title">Time until break</h3>
+        <div class="time-to-break_clock js-time-to-break_clock">-</div>
+      </div>
+    </main>
+    <section class="settings js-settings">
+      <div
+        id="display"
+        class="settings-section">
+        <img
+          src="./assets/icons/close.svg"
+          alt=""
+          srcset=""
+          class="close-icon js-close-settings" />
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Level</th>
+              <th>Small Blind</th>
+              <th>Big Blind</th>
+              <th>Ante</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+      <div class="customise-button">
+        <h2 class="customise-button_heading">Customise Settings</h2>
+      </div>
+      <div id="collect">
+        <form
+          class="hidden"
+          id="form">
+          <p>
+            <label for="numberOfPlayers"
+              >Number of Players: <span></span
+            ></label>
+            <input
+              type="number"
+              id="numberOfPlayers"
+              name="numberOfPlayers"
+              value="" />
+          </p>
+          <p>
+            <label for="gameDurationHours">Game Length: <span></span></label>
+            <input
+              type="number"
+              id="gameDurationHours"
+              name="gameDurationHours"
+              step="0.1"
+              value="" />
+          </p>
+          <p>
+            <label for="levelDuration">Level Length: <span></span></label>
+            <input
+              type="number"
+              id="levelDuration"
+              name="levelDuration"
+              value="" />
+          </p>
+          <p>
+            <label for="startingStack"
+              >Starting Stack (in Big Blinds): <span></span>
+            </label>
+            <input
+              type="number"
+              id="startingStack"
+              name="startingStack"
+              value="" />
+          </p>
+          <p>
+            <label for="smallestChipValue"
+              >Smallest Chip Denomination: <span></span>
+            </label>
+            <input
+              type="number"
+              id="smallestChipValue"
+              name="smallestChipValue"
+              value="" />
+          </p>
+          <div id="optional">
+            <div id="advanced-options">
+              <p>
+                <label for="breakLengthMinutes"
+                  >Break Length: <span></span>
+                </label>
+                <input
+                  type="number"
+                  id="breakLengthMinutes"
+                  name="breakLengthMinutes"
+                  value="" />
+              </p>
+              <p>
+                <label for="maxTimeBetweenBreaks"
+                  >Maximum Time Between Breaks (minutes): <span></span>
+                </label>
+                <input
+                  type="number"
+                  id="maxTimeBetweenBreaks"
+                  name="maxTimeBetweenBreaks"
+                  value="" />
+              </p>
+              <p>
+                <label for="startingSmallBlind"
+                  >Starting Small Blind: <span></span>
+                </label>
+                <input
+                  type="number"
+                  id="startingSmallBlind"
+                  name="startingSmallBlind"
+                  value="" />
+              </p>
+            </div>
+          </div>
+          <p>
+            <button id="btnSave">Save</button>
+          </p>
+          <p>
+            <button id="minimise-button">Minimise Custom Settings</button>
+          </p>
+        </form>
+      </div>
+    </section>
+    <script
+      type="module"
+      src="./js/blindsfunction.js"></script>
+  </body>
+</html>
