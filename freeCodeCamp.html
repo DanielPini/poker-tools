@@ -1,0 +1,232 @@
+<!-- Objective: Build an app that is functionally similar to https://personal-portfolio.freecodecamp.rocks. Do not copy this demo project.
+
+User Stories:
+
+Your portfolio should have a welcome section with an id of welcome-section
+The welcome section should have an h1 element that contains text
+Your portfolio should have a projects section with an id of projects
+The projects section should contain at least one element with a class of project-tile to hold a project
+The projects section should contain at least one link to a project
+Your portfolio should have a navbar with an id of navbar
+The navbar should contain at least one link that you can click on to navigate to different sections of the page
+Your portfolio should have a link with an id of profile-link, which opens your GitHub or freeCodeCamp profile in a new tab
+Your portfolio should have at least one media query
+The height of the welcome section should be equal to the height of the viewport
+The navbar should always be at the top of the viewport
+Fulfill the user stories and pass all the tests below to complete this project. Give it your own personal style. Happy Coding!
+
+Note: Be sure to add <link rel="stylesheet" href="styles.css"> in your HTML to link your stylesheet and apply your CSS
+
+Run the Tests (Ctrl + Enter)
+Save your Code
+Reset this lesson
+Get Help
+Tests
+Waiting:1. Your portfolio should have a "Welcome" section with an id of welcome-section.
+Waiting:2. Your #welcome-section element should contain an h1 element.
+Waiting:3. You should not have any empty h1 elements within #welcome-section element.
+Waiting:4. You should have a "Projects" section with an id of projects.
+Waiting:5. Your portfolio should contain at least one element with a class of project-tile.
+Waiting:6. Your #projects element should contain at least one a element.
+Waiting:7. Your portfolio should have a navbar with an id of navbar.
+Waiting:8. Your #navbar element should contain at least one a element whose href attribute starts with #.
+Waiting:9. Your portfolio should have an a element with an id of profile-link.
+Waiting:10. Your #profile-link element should have a target attribute of _blank.
+Waiting:11. Your portfolio should use at least one media query.
+Waiting:12. Your #navbar element should always be at the top of the viewport. -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="styles.css" />
+    <title>Personal-portfolio</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+        scroll-behavior: smooth;
+      }
+      #header {
+        height: 60px;
+        background-color: blanchedalmond;
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        z-index: 99;
+      }
+      #navbar {
+        height: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+        font-style: italic;
+        transition: all 300ms ease;
+        margin: 10px;
+      }
+      a:hover {
+        transform: scale(1.1);
+      }
+      #welcome {
+        height: 100vh;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+        background-color: darkcyan;
+      }
+      #welcome h1 {
+        font-size: clamp(30px, 6vw, 60px);
+        color: rgb(255, 255, 98);
+      }
+      #welcome h2 {
+        font-size: clamp(16px, 3vw, 30px);
+        font-style: italic;
+        color: rgb(255, 255, 98);
+      }
+      #projects {
+        background-color: rgb(82, 82, 151);
+      }
+      #project-title {
+        color: rgb(255, 255, 98);
+        padding: 20px;
+        font-size: clamp(20px, 4vw, 40px);
+      }
+      #poker-section,
+      #music-section {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-evenly;
+      }
+      .section-title {
+        width: 100%;
+        color: rgb(255, 255, 98);
+        padding: 20px;
+        font-size: clamp(16px, 3vw, 30px);
+      }
+      .project {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        background-color: rgb(216, 177, 127);
+        width: 210px;
+        height: 220px;
+        margin: 20px;
+        border-radius: 10px;
+        position: relative;
+        cursor: pointer;
+      }
+      .filter-div {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+      }
+      .project:hover .filter-div {
+        background-color: rgba(67, 67, 67, 0.129);
+      }
+      .project-image {
+        margin-top: 5px;
+        width: 200px;
+        border-radius: 10px;
+      }
+      #profile {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        background-color: rgb(189, 76, 211);
+      }
+      @media only screen and (max-width: 600px) {
+        #profile,
+        #profile * {
+          display: block;
+          width: 1px;
+          height: 1px;
+          opacity: 0;
+          margin: -1px;
+          font-size: 1px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <nav id="navbar">
+        <a href="#welcome">Welcome</a>
+        <a href="#projects">Projects</a>
+      </nav>
+    </header>
+    <section id="welcome">
+      <h1>Welcome</h1>
+      <h2>- EvenPhteven</h2>
+    </section>
+    <section id="projects">
+      <h2 id="project-title">Projects</h2>
+      <section id="poker-section">
+        <h3 class="section-title">Poker Tools</h3>
+        <figure class="project">
+          <img
+            src="https://cdn.britannica.com/95/124395-004-3B484C8B/hand-cards-trump-spades.jpg"
+            alt=""
+            class="project-image" />
+          <div class="filter-div"></div>
+          <figcaption class="project-title">Poker Blinds Timer</figcaption>
+        </figure>
+        <figure class="project">
+          <img
+            src="https://cdn.britannica.com/95/124395-004-3B484C8B/hand-cards-trump-spades.jpg"
+            alt=""
+            class="project-image" />
+          <div class="filter-div"></div>
+          <figcaption class="project-title">Poker Hand Calculator</figcaption>
+        </figure>
+      </section>
+      <section id="music-section">
+        <h3 class="section-title">Musician's Tools</h3>
+        <figure class="project">
+          <img
+            src="https://cdn.britannica.com/95/124395-004-3B484C8B/hand-cards-trump-spades.jpg"
+            alt=""
+            class="project-image" />
+          <div class="filter-div"></div>
+          <figcaption class="project-title">Customisable Metronome</figcaption>
+        </figure>
+        <figure class="project">
+          <img
+            src="https://cdn.britannica.com/95/124395-004-3B484C8B/hand-cards-trump-spades.jpg"
+            alt=""
+            class="project-image" />
+          <div class="filter-div"></div>
+          <figcaption class="project-title">Microtonal Tuner</figcaption>
+        </figure>
+        <figure class="project">
+          <img
+            src="https://cdn.britannica.com/95/124395-004-3B484C8B/hand-cards-trump-spades.jpg"
+            alt=""
+            class="project-image" />
+          <div class="filter-div"></div>
+          <figcaption class="project-title">
+            Custom IMSLP Search Tool
+          </figcaption>
+        </figure>
+      </section>
+    </section>
+    <section id="profile">
+      <a href="#">Instagram</a>
+      <a href="#">YouTube</a>
+      <a href="#">Personal Website</a>
+    </section>
+  </body>
+</html>

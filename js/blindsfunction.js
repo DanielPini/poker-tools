@@ -175,7 +175,7 @@ const APP = {
 
   },
   buildTable(numberOfPlayers, gameDurationHours, levelDuration, startingStack, smallestChipValue, breakLengthMinutes, maxTimeBetweenBreaks, startingSmallBlind) {
-    const lastLevelSmallBlind = startingStack * startingSmallBlind * numberOfPlayers / 10;
+    const lastLevelSmallBlind = startingStack * startingSmallBlind * numberOfPlayers / 7;
     const gameDurationMinutes = gameDurationHours * 60;
     const numberOfBreaks = Math.floor(gameDurationMinutes / (Number(maxTimeBetweenBreaks) + Number(breakLengthMinutes)));
     const numberOfLevels = Math.ceil((gameDurationMinutes - numberOfBreaks * breakLengthMinutes) / levelDuration + 1);

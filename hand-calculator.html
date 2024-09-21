@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Poker Hand Calculator</title>
+  </head>
+  <body>
+    <main id="calculator">
+      <!--Div with main display containing:
+          - community cards, 
+          - hero hand and percentage, 
+          - other players hands and percentage, 
+          - and buttons adding: 
+            - extra players, 
+            - and resetting the app.
+          Once both player cards are entered in, the app calculates the outs and percentage chances of winning vs tieing.
+           -->
+      <div class="community-cards">
+        <!-- Each card starts face down.
+         Clicking on a card:
+         - hides the players cards and percentages
+         - replaces them with a div where you can choose a value and a suit. 
+         - hides the buttons
+         - replaces them with buttons for clear and done
+         - replaces the p beneath with "Select community cards"
+         -->
+      </div>
+      <p>Select two cards to get started</p>
+      <div class="players">
+        <!-- This div contains: 
+         - the players 2 cards starting face down,
+         - the name of the player, 
+         - the win percentage, and the tie percentage
+         The two buttons: 
+          - add player,
+          - reset 
+        Clicking on a card:
+         - hides the players cards and percentages
+         - replaces them with a div with 2 big face down cards where you can select each one and choose a value and a suit. 
+         - hides the buttons
+         - replaces them with buttons for clear and done
+         - replaces the p beneath with "Select cards for player"
+          -->
+      </div>
+    </main>
+  </body>
+</html>
