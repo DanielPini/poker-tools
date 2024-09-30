@@ -11,13 +11,126 @@
       href="./css/blindsstyle.css" />
   </head>
   <body>
+    <div id="splash"></div>
+    <div id="welcome">Poker Blinds Timer</div>
+    <div id="logo">Digital Poker Services</div>
+    <div id="how-it-works">
+      <h2>How it works</h2>
+      <p>
+        In poker tournaments, blind structures are essential to ensure that the
+        game progresses in an even manner towards a winner.
+      </p>
+      <p>
+        Poker Blinds Timer takes care of all the maths with its in-built calculator, so
+        you can sit back and relax.
+      </p>
+      <p>
+        Poker Blinds Timer works out the optimal blind increment based on starting stack size,
+        desired length of game, number of players, timing of breaks, break
+        length, and will keep track of all aspects of the blinds, so you finish
+        on time, stress-free.
+      </p>
+      <p>The app does all the work, so you can sit back and play.</p>
+      <iframe
+        #id="tutorial"
+        src=""
+        frameborder="0"></iframe>
+      <button id="enter-your-settings-button">Enter your settings</button>
+    </div>
+    <section id="collect">
+      <h2>Customisable Settings</h2>
+      <p>
+        Enter the settings for your game below. 
+      </br>The description is on the left, followed by a <span style="background: rgb(57, 57, 57); padding: 2px 4px; border-radius: 4px">default</span> value, then a
+        field where you can customise your settings. </br>Click on the Save button,
+        or press <<span style="font-style: italic;">Enter</span>> to confirm your selection.
+      </p>
+      <form id="form">
+        <p>
+          <label for="numberOfPlayers">Number of Players: <span></span></label>
+          <input
+            type="number"
+            id="numberOfPlayers"
+            name="numberOfPlayers"
+            value="" />
+        </p>
+        <p>
+          <label for="gameDurationHours">Game Length: <span></span></label>
+          <input
+            type="number"
+            id="gameDurationHours"
+            name="gameDurationHours"
+            step="0.1"
+            value="" />
+        </p>
+        <p>
+          <label for="levelDuration">Level Length: <span></span></label>
+          <input
+            type="number"
+            id="levelDuration"
+            name="levelDuration"
+            value="" />
+        </p>
+        <p>
+          <label for="startingStack"
+            >Starting Stack (in Big Blinds): <span></span>
+          </label>
+          <input
+            type="number"
+            id="startingStack"
+            name="startingStack"
+            value="" />
+        </p>
+        <p>
+          <label for="smallestChipValue"
+            >Smallest Chip Denomination: <span></span>
+          </label>
+          <input
+            type="number"
+            id="smallestChipValue"
+            name="smallestChipValue"
+            value="" />
+        </p>
+        <p>
+          <label for="breakLengthMinutes">Break Length: <span></span> </label>
+          <input
+            type="number"
+            id="breakLengthMinutes"
+            name="breakLengthMinutes"
+            value="" />
+        </p>
+        <p>
+          <label for="maxTimeBetweenBreaks"
+            >Maximum Time Between Breaks (minutes): <span></span>
+          </label>
+          <input
+            type="number"
+            id="maxTimeBetweenBreaks"
+            name="maxTimeBetweenBreaks"
+            value="" />
+        </p>
+        <p>
+          <label for="startingSmallBlind"
+            >Starting Small Blind: <span></span>
+          </label>
+          <input
+            type="number"
+            id="startingSmallBlind"
+            name="startingSmallBlind"
+            value="" />
+        </p>
+        <p>
+          <button id="btnSave">Save</button>
+        </p>
+        <p>
+      </form>
+    </section>
     <header>
-      <div class="logo"></div>
       <div class="round">
         <p class="js-round-number">Round</p>
       </div>
+      <div id="dps">DPS</div>
       <div class="settings-section">
-        <p>Settings</p>
         <img
           class="settings-icon"
           src="assets/icons/settings.svg"
@@ -106,102 +219,6 @@
           </thead>
           <tbody id="table-body"></tbody>
         </table>
-      </div>
-      <div class="customise-button">
-        <h2 class="customise-button_heading">Customise Settings</h2>
-      </div>
-      <div id="collect">
-        <form
-          class="hidden"
-          id="form">
-          <p>
-            <label for="numberOfPlayers"
-              >Number of Players: <span></span
-            ></label>
-            <input
-              type="number"
-              id="numberOfPlayers"
-              name="numberOfPlayers"
-              value="" />
-          </p>
-          <p>
-            <label for="gameDurationHours">Game Length: <span></span></label>
-            <input
-              type="number"
-              id="gameDurationHours"
-              name="gameDurationHours"
-              step="0.1"
-              value="" />
-          </p>
-          <p>
-            <label for="levelDuration">Level Length: <span></span></label>
-            <input
-              type="number"
-              id="levelDuration"
-              name="levelDuration"
-              value="" />
-          </p>
-          <p>
-            <label for="startingStack"
-              >Starting Stack (in Big Blinds): <span></span>
-            </label>
-            <input
-              type="number"
-              id="startingStack"
-              name="startingStack"
-              value="" />
-          </p>
-          <p>
-            <label for="smallestChipValue"
-              >Smallest Chip Denomination: <span></span>
-            </label>
-            <input
-              type="number"
-              id="smallestChipValue"
-              name="smallestChipValue"
-              value="" />
-          </p>
-          <div id="optional">
-            <div id="advanced-options">
-              <p>
-                <label for="breakLengthMinutes"
-                  >Break Length: <span></span>
-                </label>
-                <input
-                  type="number"
-                  id="breakLengthMinutes"
-                  name="breakLengthMinutes"
-                  value="" />
-              </p>
-              <p>
-                <label for="maxTimeBetweenBreaks"
-                  >Maximum Time Between Breaks (minutes): <span></span>
-                </label>
-                <input
-                  type="number"
-                  id="maxTimeBetweenBreaks"
-                  name="maxTimeBetweenBreaks"
-                  value="" />
-              </p>
-              <p>
-                <label for="startingSmallBlind"
-                  >Starting Small Blind: <span></span>
-                </label>
-                <input
-                  type="number"
-                  id="startingSmallBlind"
-                  name="startingSmallBlind"
-                  value="" />
-              </p>
-            </div>
-          </div>
-          <p>
-            <button id="btnSave">Save</button>
-          </p>
-          <p>
-            <button id="minimise-button">Minimise Custom Settings</button>
-          </p>
-        </form>
       </div>
     </section>
     <script

@@ -12,29 +12,43 @@ const APP = {
       APP.addDummyValues();
       APP.addEventListeners();
       APP.howLongUntilBreak();
+      APP.splash()
 
   },
   addEventListeners() {
     const settings = document.querySelector(".js-settings");
+
+    const splash = document.querySelector("#splash")
+    const logo = document.querySelector("#logo")
+    const welcome = document.querySelector("#welcome")
+    const enterSettingsButton = document.querySelector("#enter-your-settings-button")
+
+    enterSettingsButton.addEventListener("click", () => {
+      const howItWorks = document.querySelector('#how-it-works')
+      howItWorks.classList.add("dismissed")
+    })
+
+    splash.addEventListener("click", () => {
+      logo.classList.add("loaded-logo")
+      welcome.classList.add("loaded-welcome")
+      splash.classList.add("loaded-splash")
+    })
+
+    const form = document.querySelector("#form")
+
+    form.addEventListener("keydown", (e) => {
+      if(e.key === "Tab") {
+        e.target.previousElementSibling.firstElementChild.innerText = e.target.value
+      }
+    })
+
+    form.addEventListener("submit", () => {
+      collect.classList.add("dismissed")
+    })
     
     // open settings menu
     const settingsIcon = document.querySelector(".settings-section");
-
-    const customiseForm = document.querySelector("#form")
-    const customiseButton = document.querySelector(".customise-button")
-    customiseButton.addEventListener("click", () => {
-      customiseForm.style.transform = "scale(1)";
-      
-    })
     
-    const minimiseButton = document.querySelector("#minimise-button");
-    minimiseButton.addEventListener("click", () => {
-      console.log("working");
-      
-      customiseForm.style.transform = "scale(0.0001)";
-    });
-    
-    const form = document.querySelector('#collect form');
     form.addEventListener('submit', APP.saveData);
     document
       .querySelector('table tbody')
@@ -91,6 +105,19 @@ const APP = {
         APP.howLongUntilBreak();
       };
     })
+  },
+  splash() {
+    const splash = document.querySelector("#splash")
+    const logo = document.querySelector("#logo")
+    const welcome = document.querySelector("#welcome")
+
+    setTimeout(function() {
+      logo.classList.add("loaded-logo")
+      welcome.classList.add("loaded-welcome")
+      logo.innerText = "DPS"
+      splash.classList.add("loaded-splash")
+    }, 3000)
+
   },
   saveData(ev) {
     ev.preventDefault();

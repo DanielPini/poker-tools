@@ -7,7 +7,7 @@
 }
 body {
   background-color: rgb(22, 22, 22);
-  overflow-x: hidden;
+  overflow: hidden;
 }
 header {
   display: flex;
@@ -29,10 +29,101 @@ header > div {
   flex-flow: row nowrap;
   white-space: nowrap;
 }
-.logo {
-  width: 90px;
-  border: 1px black solid;
+#splash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+  z-index: 3;
 }
+#splash.loaded-splash {
+  opacity: 0;
+  z-index: -1;
+}
+#how-it-works {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  background: black;
+  height: 100vh;
+  width: 100vw;
+  z-index: 2;
+  h2, p {
+    margin: 40px 5vw;
+  }
+  h2 {
+    font-size: clamp(30px, 5vw, 50px)
+  }
+  p {
+    font-size: clamp(12px, 3vw, 30px)
+  }
+  iframe {
+    display: none;
+  }
+  button {
+    box-sizing: border-box;
+    width: 11vw;
+    min-width: 110px;
+    height: 6vw;
+    min-height: 60px;
+    border-radius: 4px;
+    margin: 0 5vw;
+    font-size: clamp(12px, 2vw, 20px);
+  }
+}
+#how-it-works.dismissed {
+  opacity: 0;
+  z-index: -1;
+}
+#enter-your-settings-button {
+  color: black;
+  cursor: pointer;
+}
+#welcome {
+  position: absolute;
+  left: 50%;
+  white-space: nowrap;
+  top: 40%;
+  font-size: 7vw;
+  translate: -50%;
+  text-align: left;
+  font-weight: bold;
+  line-height: 45px;
+  z-index: 3;
+}
+#logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-size: 4vw;
+  translate: -50%;
+  text-align: center;
+  font-weight: bold;
+  line-height: 30px;
+  z-index: 3;
+  white-space: nowrap;
+  transition: all 300ms ease;
+}
+#welcome.loaded-welcome {
+  opacity: 0;
+  transition: all 100ms ease;
+}
+#logo.loaded-logo {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  font-size: 2vw;
+  translate: -50%;
+  height: 30px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 30px;
+  z-index: -1;
+}
+
 main {
   display: grid;
   grid-template-rows: repeat(3, 30vh);
@@ -180,10 +271,18 @@ main {
   transition: all 100ms linear;
 }
 input {
-  color: black;
-  height: 30px;
-  width: 50px;
-  border-radius: 5px;
+  display: table-cell;
+  color: white;
+  background-color: black;
+  border: 2px solid grey;
+  /* height: clamp(30px 3vw, 60px); */
+  width: calc(3vw + 20px);
+  border-radius: 6px;
+  align-self: center;
+  /* margin-left: 10px; */
+  text-align: center;
+  font-size: clamp(10px, 2vw, 25px);
+  line-height: clamp(18px, 3vw, 25px);
 }
 input[type="number"] {
   -moz-appearance: textfield;
@@ -267,51 +366,60 @@ tbody > tr:nth-child(even) {
   cursor: pointer;
 }
 #collect {
-  width: calc(100% - 40px);
-  display: flex;
-  margin: 10px auto;
-  font-size: 24px;
-  flex-flow: column;
-  align-items: start;
-}
-#collect > form > p, #advanced-options, p  {
-  display: flex;
-  flex-flow: column;
-}
-#optional {
-  display: inline-block;
-}
-#btnSave {
-  background-color: maroon;
-  width: 90px;
-  height: 30px;
-  border-radius: 20px;
-  margin: 10px 0;
-}
-.customise-button, #minimise-button {
-  display: inline-block;
-  white-space: nowrap;
-  text-align: center;
-  width: 300px;
-  height: 30px;
-  border-radius: 20px;
-  margin: 10px 10px;
-  cursor: pointer;
-  background-color: maroon;
-}
-#form {
   position: absolute;
-  background-color: rgb(24, 21, 46);
-  top: 0%;
-  left: 50%;
-  translate: -50%;
+  top: 0;
+  left: 0;
   width: 100vw;
-  height: 100vw;
-  transform: scale(.0001);
-  transition: all 250ms linear;
+  height: 100vh;
+  background-color: rgb(0, 0, 0);
+  display: flex;
+  font-size: clamp(12px, 3vw, 30px);
+  flex-flow: column;
+  align-items: center;
+  z-index: 1;
+  line-height: 40px;
+  > h2, > p {
+    margin: 0 4vw;
+  }
+  > h2 {
+    margin-top: 40px;
+  }
+  > p {
+    margin: 20px 4vw;
+    margin-bottom: 20px;
+  }
+  #form {
+    display: table;
+    transition: all 250ms linear;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    padding-top: 3vw;
+    width: calc(100vw - 6vw);
+    line-height: 100%;
+    padding: 20px;
+    p {
+      display: table-row;
+      padding-left: 4vw;
+      span {
+        color: rgb(225, 225, 225);
+        background: rgb(57, 57, 57);
+        padding: 2px 4px;
+        border-radius: 4px;
+      }
+    }
+    label {
+      display: table-cell;
+    }
+    button {
+      color: black;
+      background-color: white;
+      padding: 5px;
+      margin: 20px auto;
+    }
+  }
 }
-#form {
-  padding-left: 30px;
-  padding-top: 30px;
+#collect.dismissed {
+  z-index: -1;
+  opacity: 0;
 }
 
