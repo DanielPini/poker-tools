@@ -6,52 +6,85 @@ const APP = {
   intervalID: "",
   breakIntervalID: "",
   init() {
-      // add listeners to the site
-      // work out the data that needs to fill the fields
-      // update the fields
-      APP.addDummyValues();
+      //Add listeners to the site
+      //Work out the data that needs to fill the fields
+      //Update the fields
       APP.addEventListeners();
       APP.howLongUntilBreak();
-      APP.splash()
-
-  },
-  addEventListeners() {
-    const settings = document.querySelector(".js-settings");
-
+    },
+  startingScreens() {
+    // Add functionality to splash, settings, and tutorial screens
     const splash = document.querySelector("#splash")
     const logo = document.querySelector("#logo")
     const welcome = document.querySelector("#welcome")
     const enterSettingsButton = document.querySelector("#enter-your-settings-button")
-
-    enterSettingsButton.addEventListener("click", () => {
-      const howItWorks = document.querySelector('#how-it-works')
-      howItWorks.classList.add("dismissed")
-    })
+    const blankInputs = document.querySelectorAll("form span")
+    const saveBtn = document.querySelector("#btnSave")
+    const inputs = document.querySelectorAll("input[type=number]")
+    let inputsFilled = [0,0,0,0,0,0,0,0]
+      
+    setTimeout(function() {
+      logo.classList.add("loaded-logo")
+      welcome.classList.add("loaded-welcome")
+      logo.innerText = "DPS"
+      splash.classList.add("loaded-splash")
+    }, 3000)
 
     splash.addEventListener("click", () => {
       logo.classList.add("loaded-logo")
       welcome.classList.add("loaded-welcome")
       splash.classList.add("loaded-splash")
     })
+    enterSettingsButton.addEventListener("click", () => {
+      const howItWorks = document.querySelector('#how-it-works')
+      howItWorks.classList.add("dismissed")
+      inputs[0].focus()
+    })
 
     const form = document.querySelector("#form")
-
-    form.addEventListener("keydown", (e) => {
-      if(e.key === "Tab") {
+    
+    blankInputs.forEach(input => {
+      input.style.opacity = 0;
+    })
+    inputs.forEach((input, i) => {
+      input.addEventListener("change", (e) => {
+        isEmpty(e, i)
+      })
+    })
+    function isEmpty(e, i) {
+      if (e.target.value < .1) {
+        inputsFilled[i] = 0
+        e.target.value = ""
+        e.target.previousElementSibling.firstElementChild.style.opacity = 0
+      } else {
+        inputsFilled[i] = 1
+        e.target.previousElementSibling.firstElementChild.style.opacity = 1
         e.target.previousElementSibling.firstElementChild.innerText = e.target.value
       }
-    })
-
+      let howFilled = 0
+      for (let i = 0; i < inputsFilled.length; i++) {
+        if (inputsFilled[i] > 0) {
+          howFilled++
+        }   
+      }
+      if (howFilled === 8) {
+        saveBtn.disabled = false;
+      } else {
+        saveBtn.disabled = true;
+      }
+    }
+    form.addEventListener('submit', APP.saveData);
+    
     form.addEventListener("submit", () => {
       collect.classList.add("dismissed")
-    })
+      APP.init()
+    })    
+  },
+  addEventListeners() {
+    const settings = document.querySelector(".js-settings");
     
     // open settings menu
     const settingsIcon = document.querySelector(".settings-section");
-    
-    form.addEventListener('submit', APP.saveData);
-    document
-      .querySelector('table tbody')
 
     settingsIcon.addEventListener("click", () => {
       settings.style.left = "0%";
@@ -106,19 +139,6 @@ const APP = {
       };
     })
   },
-  splash() {
-    const splash = document.querySelector("#splash")
-    const logo = document.querySelector("#logo")
-    const welcome = document.querySelector("#welcome")
-
-    setTimeout(function() {
-      logo.classList.add("loaded-logo")
-      welcome.classList.add("loaded-welcome")
-      logo.innerText = "DPS"
-      splash.classList.add("loaded-splash")
-    }, 3000)
-
-  },
   saveData(ev) {
     ev.preventDefault();
 
@@ -126,9 +146,6 @@ const APP = {
     const formdata = new FormData(form);
     // save the data in APP.data
     APP.cacheData(formdata)
-
-    form.reset();
-    document.getElementById('numberOfPlayers').focus();
   },
   cacheData(formdata) {
     let userValues = Object.fromEntries(formdata.entries())
@@ -172,38 +189,12 @@ const APP = {
     
     APP.buildTable(userValues.numberOfPlayers, userValues.gameDurationHours, userValues.levelDuration, userValues.startingStack, userValues.smallestChipValue, userValues.breakLengthMinutes, userValues.maxTimeBetweenBreaks, userValues.startingSmallBlind)
   },
-  addDummyValues() {
-    const userValues = {}
-    userValues.numberOfPlayers = '9';
-    userValues.gameDurationHours  = '3.5';
-    userValues.levelDuration = '15';
-    userValues.startingStack  = '100';
-    userValues.smallestChipValue  = '5';
-    userValues.breakLengthMinutes = '15';
-    userValues.maxTimeBetweenBreaks  = '90';
-    userValues.startingSmallBlind  = '5';
-    sessionStorage.setItem("players", 9)
-    sessionStorage.setItem("gameLength", 3.5)
-    sessionStorage.setItem("levelLength", 15)
-    sessionStorage.setItem("stack", 100)
-    sessionStorage.setItem("smallestChip", 5)
-    sessionStorage.setItem("breakLength", 15)
-    sessionStorage.setItem("betweenBreaksLength", 90)
-    sessionStorage.setItem("smallBlind", 5)
-    
-    const labels = document.querySelectorAll("form label");
-
-    const foo = Object.values(userValues)
-    for (let i = 0; i < labels.length; i++) {
-      labels[i].firstElementChild.innerText = foo[i];
-    }
-
-    APP.buildTable(userValues.numberOfPlayers, userValues.gameDurationHours, userValues.levelDuration, userValues.startingStack, userValues.smallestChipValue, userValues.breakLengthMinutes, userValues.maxTimeBetweenBreaks, userValues.startingSmallBlind)
-
-  },
   buildTable(numberOfPlayers, gameDurationHours, levelDuration, startingStack, smallestChipValue, breakLengthMinutes, maxTimeBetweenBreaks, startingSmallBlind) {
-    const lastLevelSmallBlind = startingStack * startingSmallBlind * numberOfPlayers / 7;
-    const gameDurationMinutes = gameDurationHours * 60;
+    const lastLevelSmallBlind = Math.floor(startingStack * startingSmallBlind * 2 * numberOfPlayers * .134 * .01) * 100;
+    console.log("Total Chips in play: " + startingStack * startingSmallBlind * 2 * numberOfPlayers)
+    console.log("My jank solution: " + lastLevelSmallBlind * 2)
+    console.log("Suggested 7% last level Big Blind = " + startingStack * 2 * startingSmallBlind * numberOfPlayers * .07)
+    const gameDurationMinutes = (gameDurationHours * 60) + 30;
     const numberOfBreaks = Math.floor(gameDurationMinutes / (Number(maxTimeBetweenBreaks) + Number(breakLengthMinutes)));
     const numberOfLevels = Math.ceil((gameDurationMinutes - numberOfBreaks * breakLengthMinutes) / levelDuration + 1);
 
@@ -214,7 +205,7 @@ const APP = {
     
     loopThroughBlinds();
 
-    // Function to loop through blinds looking for correct tempIncrement value
+    // Function to loop through blinds looking for correct tempIncrement value 
     function loopThroughBlinds() {
       startingBlindIncrement = Math.round(startingBlindIncrement * 100) / 100;
       let x = startingSmallBlind;
@@ -225,6 +216,7 @@ const APP = {
       let minutes = "00";
       let breaks = 0;
       let h = 5;
+      let levelNumber = 1
 
       tableBody.innerHTML = `
           <tr class="current level">
@@ -235,6 +227,7 @@ const APP = {
             <td class="ante">${z}</td>
             <td class="duration">${levelDuration}</td>
           </tr>`
+          levelNumber++
     
       for (let i = 1; i < Number(numberOfLevels); i++) {
         x < 40 ? h = 5
@@ -242,14 +235,15 @@ const APP = {
         : x < 450 ? h = 25
         : h = 100
         x = Math.ceil((x * Number(startingBlindIncrement)) / h) * h;
-
         y = x * 2
         time = time + Number(levelDuration);
         hours = Math.floor(time / 60);
         minutes = time % 60;
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-    
-        if (time >= ((gameDurationMinutes + numberOfBreaks * Number(breakLengthMinutes)) / (numberOfBreaks + 1)) * (breaks + 1)) {
+        minutes = minutes < 10 ? "0" + minutes : minutes; 
+
+        const levelsBetweenBreaks = Math.ceil(numberOfLevels / (numberOfBreaks + 1))
+
+        if ( (levelNumber - 1) % levelsBetweenBreaks == 0) {
           tableBody.innerHTML+= `
           <tr class="break">
             <td class="time">${hours}:${minutes}</td>
@@ -260,8 +254,10 @@ const APP = {
             <td class="duration">${breakLengthMinutes}</td>
           </tr>`
           breaks++;
+          levelNumber++
           time = time + parseInt(breakLengthMinutes);
           minutes = time % 60;
+          minutes = minutes < 10 ? "0" + minutes : minutes;
           hours = Math.floor(time / 60);
         }
 
@@ -274,11 +270,12 @@ const APP = {
             <td class="ante">${z}</td>
             <td class="duration">${levelDuration}</td>
           </tr>`
+          levelNumber++
       }
       if (x > lastLevelSmallBlind) {
         return;
       } else {
-        startingBlindIncrement += 0.05;
+        startingBlindIncrement += 0.01;
         loopThroughBlinds();
       }
       return;
@@ -323,35 +320,13 @@ const APP = {
       }
       // Accumulate the duration
       // if next level contains break reset timer to 0 and level counter to 0 and return the cumulative duration.
-      // if (rounds[i + 1] != null && rounds[i + 1].classList.contains("level")) {
-      //   cumulativeTime += parseInt(rounds[i + 1].children[5].innerText);
-      // } else {
-      //   console.log("break")
-      //   break;
-      // }
     }
     APP.timeUntilBreak = cumulativeTime * 60;
     APP.updateCountdown(startingMinutes);
     APP.updateBreakTimer();
     APP.updateFields(breakTimeField);
   },
-  updateBreakTimer() {
-    const breakTimeField = document.querySelector(".break-time")
-    const remainingTimeCountdown = breakTimeField.children[1]
-    if (APP.tiemUntilBreak <= 0 || undefined || null ) {
-      clearInterval(APP.breakIntervalID);
-      APP.timeUntilBreak = 0;
-      return;
-    } else {
-      APP.timeUntilBreak--;
-      let minutes = Math.floor( APP.timeUntilBreak / 60 );
-      let seconds = APP.timeUntilBreak % 60;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-      if (remainingTimeCountdown != null) {
-        remainingTimeCountdown.innerText = `${minutes}:${seconds}`
-      }
-    }
-  },
+
   updateFields() {
     const table = document.querySelector("table");
     const levels = table.querySelectorAll(".level");
@@ -373,6 +348,7 @@ const APP = {
     let breakMinutes = Math.floor(APP.timeUntilBreak / 60);
     let breakSeconds = APP.timeUntilBreak % 60;
     breakSeconds = breakSeconds < 10 ? "0" + breakSeconds : breakSeconds
+
       
     document.body.style.backgroundColor = "rgb(22, 22, 22)";
     breakTimeField.innerHTML = `
@@ -428,9 +404,6 @@ const APP = {
       console.log("Previous level was break")
       currentRoundText.innerText = `Level ${levelNumber} of ${numberOfLevels}`;
       breakClock.innerText = `${breakMinutes}:${breakSeconds}`;
-      console.log(breakMinutes, breakSeconds)
-      console.log(Math.floor(APP.timeUntilBreak / 60))
-      console.log(APP.timeUntilBreak)
       smallBlindText.innerText = currentLevel.children[2].innerText;
       bigBlindText.innerText = currentLevel.children[3].innerText;
       nextSmallBlindText.innerText = currentLevel.nextElementSibling.children[2].innerText;
@@ -450,6 +423,17 @@ const APP = {
       nextAnteText.innerText = currentLevel.nextElementSibling.children[4].innerText;
       countDownClock.innerText = currentLevel.children[5].innerText + ":00";
     }
+    // if(smallBlindText.innerText < 40) {
+    //     console.log(smallBlindText.innerText)
+    //     return
+    //   } else if(smallBlindText.innerText < 100) {
+    //     alert("Chip-up 5s to 10s")
+    //   } else if(smallBlindText.innerText < 450) {
+    //     alert("Chip-up 10s to 25s")
+    //   }
+    // smallBlindText.innerText > 40 && smallBlindText.innerText < 100 ? 
+    // : smallBlindText.innerText < 450 ? alert("Chip-up 10s to 25")
+    // : alert("Chip-up 25s to 100s")
   },
   updateCountdown() {
     const countDownClock = document.querySelector(".countdown-clock").firstElementChild;
@@ -489,6 +473,23 @@ const APP = {
       APP.intervalID = setInterval(APP.updateCountdown, APP.speed);
     }
   },
+  updateBreakTimer() {
+    const breakTimeField = document.querySelector(".break-time")
+    const remainingTimeCountdown = breakTimeField.children[1]
+    if (APP.tiemUntilBreak <= 0 || undefined || null ) {
+      clearInterval(APP.breakIntervalID);
+      APP.timeUntilBreak = 0;
+      return;
+    } else {
+      APP.timeUntilBreak--;
+      let minutes = Math.floor( APP.timeUntilBreak / 60 );
+      let seconds = APP.timeUntilBreak % 60;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      if (remainingTimeCountdown != null) {
+        remainingTimeCountdown.innerText = `${minutes}:${seconds}`
+      }
+    }
+  },
   updateCurrent() {
     const table = document.querySelector("table");
     let currentLevel = table.querySelector(".current");
@@ -516,12 +517,4 @@ const APP = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', APP.init)
-
-
-// I need a website which has the ability to run through a list of blinds and display their values and timing.
-//
-// the list is displayed on a table in order
-// there will be levels and breaks
-// the timer will start with a button press
-// the list can be updated based on the user's input
+document.addEventListener('DOMContentLoaded', APP.startingScreens)

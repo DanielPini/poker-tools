@@ -62,6 +62,21 @@
         box-shadow: 0 0 3px 0 black;
         cursor: pointer;
       }
+      #tableDiv {
+        display: table;
+        width: 80vw;
+        background-color: rgb(55, 55, 55);
+        text-align: center;
+        border-radius: 15px;
+      }
+      .table-row {
+        display: table-row;
+        height: 30px;
+      }
+      .table-cell {
+        display: table-cell;
+        line-height: 6vw;
+      }
     </style>
     <title>Document</title>
   </head>
@@ -110,6 +125,324 @@
         </div>
       </div>
     </section>
+    <div id="factorial"><p id="results"></p></div>
     <script src="poker.js"></script>
+    <script>
+      // Compare two hands.
+      // Work out how many community cards are showing.
+      // Combine 2 hole cards with the showing community cards.
+      // Do the same for player 2.
+      // Work out pairs, 3 of a kind, straight, flush, top card et cetera.
+      // Say which hand wins.
+
+      const results = document.querySelector("#results");
+      const style = results.style;
+
+      style.height = "300px";
+      style.width = "300px";
+      style.backgroundColor = "blue";
+
+      function factorial(n) {
+        if (n == 0 || n == 1) {
+          return 1;
+        } else {
+          return n * factorial(n - 1);
+        }
+      }
+      function handsPossible(n, r) {
+        // Finds the total number of hands of size r from sets of size n
+        // C(n,r)=n!/r!( n-r!)
+
+        return factorial(n) / (factorial(r) * factorial(n - r));
+      }
+      const royalFlush = handsPossible(5, 5) * handsPossible(4, 1);
+
+      // How many straight flushs?
+      // Combinatorics 10 possible straights (Ace through to king) x 4 possible suits
+      // In the form of (n, r) == (10, 1) * (4, 1) = 40
+      const straightFlush =
+        handsPossible(10, 1) * handsPossible(4, 1) - royalFlush;
+
+      // How many 4 of a kind?
+      // Each rank (13), choose 1 x 4 suits x combinatoric of random extra card = 12 ranks choose 1 x 4 suits choose 1
+      // (13, 1) * (4, 4) * (12, 1) * (4, 1) = 624
+
+      const fourKind =
+        handsPossible(13, 1) *
+        handsPossible(4, 4) *
+        handsPossible(12, 1) *
+        handsPossible(4, 1);
+
+      // How many full house?
+      // (13, 1) * (4, 3) * (12, 1) * (4, 2) =
+
+      const fullHouse =
+        handsPossible(13, 1) *
+        handsPossible(4, 3) *
+        handsPossible(12, 1) *
+        handsPossible(4, 2);
+
+      const flush =
+        handsPossible(13, 5) * handsPossible(4, 1) - straightFlush - royalFlush;
+
+      const straight =
+        handsPossible(10, 1) * handsPossible(4, 1) ** 5 -
+        straightFlush -
+        royalFlush;
+
+      const threeKind =
+        handsPossible(13, 1) *
+        handsPossible(4, 3) *
+        handsPossible(12, 2) *
+        handsPossible(4, 1) ** 2;
+
+      const twoPair =
+        handsPossible(13, 2) *
+        handsPossible(4, 2) ** 2 *
+        handsPossible(11, 1) *
+        handsPossible(4, 1);
+
+      const onePair =
+        handsPossible(13, 1) *
+        handsPossible(4, 2) *
+        handsPossible(12, 3) *
+        handsPossible(4, 1) ** 3;
+
+      const highCard =
+        handsPossible(13, 5) * handsPossible(4, 1) ** 5 -
+        straight -
+        straightFlush -
+        royalFlush -
+        flush;
+
+      const total = handsPossible(52, 5);
+
+      const hands = {
+        royalFlush: {
+          name: "Royal Flush",
+          number: royalFlush,
+          percentage: handPercentage(royalFlush),
+        },
+        straightFlush: {
+          name: "Straight Flush",
+          number: straightFlush,
+          percentage: handPercentage(straightFlush),
+        },
+        fourKind: {
+          name: "Four of a Kind",
+          number: fourKind,
+          percentage: handPercentage(fourKind),
+        },
+        flush: {
+          name: "Flush",
+          number: flush,
+          percentage: handPercentage(flush),
+        },
+        straight: {
+          name: "Straight",
+          number: straight,
+          percentage: handPercentage(straight),
+        },
+        threeKind: {
+          name: "Three of a Kind",
+          number: threeKind,
+          percentage: handPercentage(threeKind),
+        },
+        twoPair: {
+          name: "Two Pair",
+          number: twoPair,
+          percentage: handPercentage(twoPair),
+        },
+        onePair: {
+          name: "One Pair",
+          number: onePair,
+          percentage: handPercentage(onePair),
+        },
+        highCard: {
+          name: "High Card",
+          number: highCard,
+          percentage: handPercentage(highCard),
+        },
+      };
+      function round(number) {
+        return Math.round(number * Math.pow(10, 4)) / Math.pow(10, 4);
+      }
+
+      function handPercentage(hand) {
+        return `${round((hand / total) * 100)}%`;
+      }
+      let list = "";
+      list += `Royal Flush: ${royalFlush} ${handPercentage(royalFlush)}
+      Straight Flush: ${straightFlush} ${handPercentage(straightFlush)}
+      Four of a Kind: ${fourKind} ${handPercentage(fourKind)}
+      Flush: ${flush} ${handPercentage(flush)}
+      Full House: ${fullHouse} ${handPercentage(fullHouse)}
+      Straight: ${straight} ${handPercentage(straight)}
+      Three of a Kind: ${threeKind} ${handPercentage(threeKind)}
+      Two Pair: ${twoPair} ${handPercentage(twoPair)}
+      One Pair: ${onePair} ${handPercentage(onePair)}
+      High Card: ${highCard} ${handPercentage(highCard)}
+      =
+      All combinations: ${
+        royalFlush +
+        straightFlush +
+        fourKind +
+        flush +
+        fullHouse +
+        straight +
+        threeKind +
+        twoPair +
+        onePair +
+        highCard
+      } ${(handsPossible(52, 5) / total) * 100}%`;
+
+      const CARD_VALUE_MAP = {
+        2: 2,
+        3: 3,
+        4: 4,
+        5: 5,
+        6: 6,
+        7: 7,
+        8: 8,
+        9: 9,
+        10: 10,
+        J: 11,
+        Q: 12,
+        K: 13,
+        A: 14,
+      };
+
+      let cards = ["9s", "9c", "8s", "8c", "4d", "10h"];
+
+      function parseCards(cards) {
+        let cardCollection = [];
+
+        for (let i = 0; i < cards.length; i++) {
+          let card = {
+            value: "",
+            suit: "",
+          };
+          // if (values.length > 0) {
+          //   for (let j = 0; j < values.length; j++) {}
+          // }
+          if (cards[i][0] == 1) {
+            card.value = 10;
+            card.suit = cards[i][2];
+          } else {
+            card.value = Number(cards[i][0]);
+            card.suit = cards[i][1];
+          }
+          cardCollection.push(card);
+        }
+        let soup = [];
+        sortedCards = cardCollection.sort(function (a, b) {
+          return a.value - b.value;
+        });
+        return sortedCards;
+
+        // const sortedValues = values.sort(function (a, b) {
+        //   return a - b;
+        // });
+
+        // return parsedCardsArray;
+      }
+
+      parseCards(cards);
+
+      function newArray(i, newArray, array1, array2) {
+        newArray.push([array1[i], array2[i]]);
+      }
+
+      function isFlush(cards) {
+        let suits = {
+          clubs: [],
+          diamonds: [],
+          hearts: [],
+          spades: [],
+        };
+        let isAlreadyFlush = false;
+        for (let i = 0; i < cards.length; i++) {
+          if (cards[i][1] == "c" || cards[i][2] == "c") {
+            suits.clubs.push(1);
+          } else if (cards[i][1] == "d" || cards[i][2] == "d") {
+            suits.diamonds.push(1);
+          } else if (cards[i][1] == "h" || cards[i][2] == "h") {
+            suits.hearts.push(1);
+          } else {
+            suits.spades.push(1);
+          }
+        }
+        Object.entries((suit) => {
+          if (suit.length > 4) {
+            isAlreadyFlush = true;
+            return `Flush of ${suit}!`;
+          }
+        });
+        console.log(Object.entries(suits));
+        if (cards.length < 7 && isAlreadyFlush == false) {
+          return "NO FLUSH!";
+        } else {
+          return "NO FLUSH POSSIBLE!";
+        }
+      }
+
+      console.log(parseCards(cards));
+
+      const div = document.querySelector("#factorial");
+      function addTableDiv() {
+        const tableDiv = document.createElement("div");
+        tableDiv.classList.add("table");
+        tableDiv.setAttribute("id", "tableDiv");
+        document.body.insertBefore(tableDiv, div);
+      }
+      addTableDiv();
+
+      const tableDiv = document.querySelector("#tableDiv");
+
+      function addTableRows(data) {
+        const tableRow = document.createElement("p");
+        tableRow.classList.add("table-row");
+        tableDiv.appendChild(tableRow);
+        const tableCellName = document.createElement("p");
+        const tableCellNumber = document.createElement("p");
+        const tableCellResults = document.createElement("p");
+        tableCellName.classList.add("table-cell");
+        tableCellNumber.classList.add("table-cell");
+        tableCellResults.classList.add("table-cell");
+        tableRow.appendChild(tableCellName);
+        tableRow.appendChild(tableCellNumber);
+        tableRow.appendChild(tableCellResults);
+        const textNode1 = document.createTextNode(data.name);
+        tableCellName.appendChild(textNode1);
+        const textNode2 = document.createTextNode(data.number);
+        tableCellNumber.appendChild(textNode2);
+        const textNode3 = document.createTextNode(data.percentage);
+        tableCellResults.appendChild(textNode3);
+      }
+
+      addTableRows(hands.royalFlush);
+      addTableRows(hands.straightFlush);
+      addTableRows(hands.fourKind);
+      addTableRows(hands.flush);
+      addTableRows(hands.straight);
+      addTableRows(hands.threeKind);
+      addTableRows(hands.twoPair);
+      addTableRows(hands.onePair);
+      addTableRows(hands.highCard);
+
+      // Add a div.
+      // Assign class for table display.
+      // Add paragraph tags to div for each row.
+      // Add class for table row
+      // Add paragraph tags for each cell and assign class.
+      // Add information
+      // Assign classes to the paragraph tags.
+      // Define one as
+
+      list += `
+      ${isFlush(cards)}`;
+
+      results.innerText = list;
+    </script>
   </body>
 </html>
